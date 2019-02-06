@@ -1,0 +1,45 @@
+video {
+    max-height: 200px;
+    max-width: 300px;
+    display: block;
+}
+
+#results {
+
+}
+
+article {
+    vertical-align: top;
+    display: inline-block;
+    width: 350px;
+    max-height: 400px;
+    overflow: auto;
+    box-sizing: border-box;
+    background: #EEEEEE;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 10px;
+
+}
+
+article:before {
+    /*   content: ""; */
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+}
+
+h2 {
+    font-size: 1em;
+    margin: 5px 0;
+}
+
+article p {
+    margin: 3px 0;
+}
+
+article p span {
+    font-weight: bold;
+    display: inline-block;
+    width: 80px;
+}

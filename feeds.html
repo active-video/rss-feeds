@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Feed Viewer</title>
+    <link rel="stylesheet" type="text/css" href="feed.css"/>
+
+</head>
+
+<body>
+
+<div>
+    <form onsubmit="applyFilter(); return false;">
+        <label> Feed
+            <select id="feeds">
+                <option value="0">https://feeds.groupninemedia.com/feeds/thrillist/weather-channel</option>
+                <option value="1">http://feeds.watchstadium.com/feeds/feed_61.xml</option>
+            </select>
+        </label>
+
+        <label>
+            Keywords
+            <input type="text" id="keywords">
+        </label>
+
+        <label>
+            Days
+            <input type="text" id="days" value="30">
+        </label>
+
+        <label>Sort By
+            <select onchange="applyFilter()" id="sortBy">
+                <option value="DATE_DESC">Date (Newest First)</option>
+                <option value="DATE_ASC">Date (Oldest First)</option>
+            </select>
+        </label>
+
+        <input type="submit" value="Filter">
+    </form>
+    <hr/>
+
+    <h1 class="channel-title"></h1>
+    <p class="channel-count"></p>
+    <p class="channel-description"></p>
+    <div id="results"></div>
+
+
+</body>
+
+</html>
+
+
+<script src="feed.js"></script>
