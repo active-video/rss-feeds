@@ -1,9 +1,18 @@
 <?php
-ob_start('ob_gzhandler');
 
-header('Content-Type: application/json');
-header('Cache-Control: max-age=2');
+/**
+* MAX_AGE in seconds for caching. Redirects to JSON are needed
+* to reduce total transfer time, as PHP gzip is much slower
+* than loading JSON w/ mod_deflate/htaccess, so question
+* is how long should we allow cached objects to be considered
+* fresh. Default is 0. Set to 30 or other for feeds that aren't
+* updated that often
+*/
+$MAX_AGE=0;
 
+header("Access-Control-Allow-Origin: *");
+header('Cache-Control: max-age=0');
+header("Connection: close");
 
 $url = $_GET['url'];
 
@@ -15,12 +24,32 @@ if(!sizeof($matches)){
 	die('{"status":"Invalid host url, not in whitelist"}');
 }
 
-require_once('xmlParser.php');
+//Options request? Send 200
+if($_SERVER['REQUEST_METHOD'] === 'OPTIONS'){
+    header('Status: 200');
+    exit;
+}
 
+$file = 'cache/' . md5($url) . '.json';
+
+//Serve from cache if new enough
+if(file_exists($file) && time()-filemtime($file) < $MAX_AGE){
+    header('Location: ' . $file);
+    exit;
+}
+
+//Get source xml directly, save to cache, and then serve redirect to newly cached file
+require_once('xmlParser.php');
 $xml = file_get_contents($url);
 
-echo namespacedXMLToArray($xml);
+if($xml){
+    if(file_put_contents($file, namespacedXMLToArray($xml))){
+        header('Location: ' . $file);
+        exit;
+    }
+}
 
-header('Content-Length: '.ob_get_length());
-ob_end_flush(); // Flush the outer ob_start()
+//for files that weren't written or xml that we couldn't obtain, send error
+header('Status: 500');
+echo '{"status": "error"}';
 ?>

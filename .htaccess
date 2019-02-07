@@ -1,0 +1,21 @@
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE application/json
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/css
+</IfModule>
+
+
+<IfModule mod_headers.c>
+    # Cache-control headers
+    Header set Access-Control-Allow-Origin "*"
+    <filesMatch "\.(json|php)$">
+        Header set Cache-Control "max-age=0, must-revalidate"
+    </filesMatch>
+    <filesMatch "\.(js|css)$">
+            Header set Cache-Control "max-age=30, must-revalidate"
+        </filesMatch>
+</IfModule>
+
+
+
