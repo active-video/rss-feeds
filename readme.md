@@ -15,3 +15,7 @@ Recommended: Generally these modules are installed by default on most shared hos
 
 1. mod_deflate.c (apache module)
 2. mod_headers.c (apache module)
+
+## Installation
+
+Copy the entire directory to your web server, including the `.htaccess` file
